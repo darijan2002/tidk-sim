@@ -1,8 +1,9 @@
 from Coder import Coder
 
 
-# Hamming(11,7) coder
-class HammingCodeCoder(Coder):
+# TODO: add extra parity bit
+# Hamming(11,7) with extra parity bit coder
+class HammingCodePlusParityCoder(Coder):
     def encode_integer(self, integer):
         binary_version = bin(integer)[2:]
         binary_version = "0" * (7 - len(binary_version)) + binary_version

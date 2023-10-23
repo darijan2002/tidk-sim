@@ -2,8 +2,9 @@ from Decoder import Decoder
 import numpy as np
 
 
-# Hamming(11,7) decoder
-class HammingCodeDecoder(Decoder):
+# TODO: add extra parity bit
+# Hamming(11,7) with extra parity bit coder
+class HammingCodePlusParityDecoder(Decoder):
     _generating_matrix = [[1, 1, 0, 1, 1, 0, 1],
                           [1, 0, 1, 1, 0, 1, 1],
                           [0, 1, 1, 1, 0, 0, 0],
@@ -58,5 +59,5 @@ class HammingCodeDecoder(Decoder):
 
 if __name__ == '__main__':
     encoded = '11011111010111110011000110110101010111001001111011001101010101111110011000000010111110101010011011010001011001'
-    x = HammingCodeDecoder().decode(encoded)
+    x = HammingCodePlusParityDecoder().decode(encoded)
     print(x)

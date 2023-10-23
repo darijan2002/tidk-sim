@@ -31,6 +31,3 @@ class HammingCodeCoder(Coder):
             return_string += self.encode_integer(character_value)
 
         return return_string
-
-
-

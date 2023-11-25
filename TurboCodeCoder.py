@@ -1,23 +1,7 @@
 from Coder import Coder
 import numpy as np
-import random
 
-
-class RCS:
-    mem = [0, 0]
-
-    def push(self, bit):
-        tmp = self.mem[0] ^ self.mem[1]
-        input = bit ^ tmp
-        ret = self.mem[1] ^ input
-
-        self.mem[1] = self.mem[0]
-        self.mem[0] = input
-
-        return ret
-
-    def terminate(self):
-        return self.push(0)
+from RCS import RCS
 
 
 # Turbo code coder
@@ -53,5 +37,6 @@ class TurboCodeCoder(Coder):
 
 
 if __name__ == '__main__':
-    x = TurboCodeCoder().encode_string('abcd')
+    s = 'The quick brown fox jumps over the lazy dog'
+    x = TurboCodeCoder().encode_string(s)
     print(x)

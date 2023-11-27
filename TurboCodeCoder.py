@@ -8,9 +8,8 @@ from RSC import RSC
 class TurboCodeCoder(Coder):
     interleaver = []
 
-    def __init__(self):
-        self.interleaver = [*range(7)]
-        np.random.shuffle(self.interleaver)
+    def __init__(self,interleaver):
+        self.interleaver = interleaver
 
     def encode_string(self, string):
         print(f'INTERLEAVER: {self.interleaver}')
@@ -29,6 +28,13 @@ class TurboCodeCoder(Coder):
                 output[-1] += str(rcs1.push(int(to_bin[b])))
                 output[-1] += str(rcs2.push(int(to_bin_i[b])))
 
+            terminated_rcs_1 = [rcs1.terminate() for _ in range(2)]
+            terminated_rcs_2 = [rcs2.terminate() for _ in range(2)]
+            print(terminated_rcs_1)
+            print(terminated_rcs_2)
+
+            output[-1] += "".join([ f'{x}{x}{y}' for x,y in zip(terminated_rcs_1,terminated_rcs_2)])
+
             print(to_bin)
             print(to_bin_i)
             print("-" * 10)
@@ -37,6 +43,6 @@ class TurboCodeCoder(Coder):
 
 
 if __name__ == '__main__':
-    s = 'The quick brown fox jumps over the lazy dog'
-    x = TurboCodeCoder().encode_string(s)
+    s = 'T'
+    x = TurboCodeCoder([0,1,2,3,4,5,6]).encode_string(s)
     print(x)

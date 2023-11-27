@@ -2,11 +2,8 @@ class RSC:
     def __init__(self):
         self.mem = [0, 0]
 
-    def push(self, bit):
-        tmp = self.mem[0] ^ self.mem[1]
-        input = bit ^ tmp
+    def push(self, input):
         ret = self.mem[1] ^ input
-
         self.mem[1] = self.mem[0]
         self.mem[0] = input
 

@@ -16,7 +16,7 @@ class SISODecoder():
         self.block_size = 9  # 7 data bits + 2 tail bits
 
         self.gamma = [[[0.0] * 4 for _ in range(4)] for _ in range(self.block_size)]
-        self.alpha = [[0] + x[1:] for x in [[-math.inf] * 4 for _ in range(self.block_size)]]
+        self.alpha = [[0] + x[1:] for x in [[-math.inf] * 4 for _ in range(self.block_size+1)]]
         self.beta = deepcopy(self.alpha)
 
         self.LLR = [0] * self.block_size
@@ -26,7 +26,7 @@ class SISODecoder():
         # first we compute the branch coefficients (gamma)
         for k in range(self.block_size):
             # at moment k calculate all branch metrics
-            for (old_state, new_state) in Trellis.possible_transitions:
+            for old_state, new_state in Trellis.possible_transitions:
                 input_signal, output_signal = Trellis.transition_matrix[old_state][new_state]
 
                 self.gamma[k][old_state][new_state] = \
@@ -38,8 +38,8 @@ class SISODecoder():
         def compute_forward(k, current_state):
             states_to_current = Trellis.origin_state[current_state]
 
-            forward_metrics = self.alpha[k - 1][states_to_current]
-            branch_metrics = self.gamma[k - 1][states_to_current][current_state]
+            forward_metrics = [self.alpha[k - 1][states_to_current[0]],self.alpha[k - 1][states_to_current[1]]]
+            branch_metrics = [self.gamma[k - 1][states_to_current[0]][current_state], self.gamma[k - 1][states_to_current[1]][current_state]]
 
             self.alpha[k][current_state] = Trellis.log_sum_of_branch_and_path_metrics(forward_metrics, branch_metrics)
 
@@ -48,8 +48,8 @@ class SISODecoder():
 
             r = self.block_size - k
 
-            backward_metrics = self.beta[k - 1][states_from_current]
-            branch_metrics = self.gamma[r][current_state][states_from_current]
+            backward_metrics = [self.beta[k - 1][states_from_current[0]],self.beta[k - 1][states_from_current[1]]]
+            branch_metrics = [self.gamma[r][current_state][states_from_current[0]],self.gamma[r][current_state][states_from_current[1]]]
 
             self.beta[k][current_state] = Trellis.log_sum_of_branch_and_path_metrics(backward_metrics, branch_metrics)
 

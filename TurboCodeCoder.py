@@ -12,7 +12,7 @@ class TurboCodeCoder(Coder):
         self.interleaver = interleaver
 
     def encode_string(self, string):
-        print(f'INTERLEAVER: {self.interleaver}')
+        # print(f'INTERLEAVER: {self.interleaver}')
 
         output = []
         rsc1, rsc2 = RSC(), RSC()
@@ -31,8 +31,7 @@ class TurboCodeCoder(Coder):
 
             terminated_rsc_1 = [rsc1.terminate() for _ in range(2)]
             terminated_rsc_2 = [rsc2.terminate() for _ in range(2)]
-            print(terminated_rsc_1)
-            print(terminated_rsc_2)
+
 
             output[-1] += "".join([ f'{x}{x}{y}' for x,y in zip(terminated_rsc_1,terminated_rsc_2)])
 
@@ -42,6 +41,4 @@ class TurboCodeCoder(Coder):
 if __name__ == '__main__':
     s = 'T'
     x = TurboCodeCoder([0,1,2,3,4,5,6]).encode_string(s)
-    print(x[0::3])
-    print(x[1::3])
-    print(x[2::3])
+    print(x)

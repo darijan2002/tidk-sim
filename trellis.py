@@ -6,11 +6,11 @@ class Trellis:
         return max(result)
 
     transition_matrix = [[(-1, -1), None, (1, 1), None],
-                                  [(1, -1), None, (-1, 1), None],
-                                  [None, (-1, -1), None, (1, 1)],
-                                  [None, (1, -1), None, (-1, 1)]]
+                         [(1, -1), None, (-1, 1), None],
+                        [None, (-1, -1), None, (1, 1)],
+                        [None, (1, -1), None, (-1, 1)]]
 
     origin_state = [(0, 1), (2, 3), (0, 1), (2, 3)]
     future_state = [(0, 2), (0, 2), (1, 3), (1, 3)]
 
-    possible_transitions = [(0,0),(0,2),(1,0),(1,2),(2,1),(2,3),(3,0),(3,2)]
+    possible_transitions = [(0,0),(0,2),(1,0),(1,2),(2,1),(2,3),(3,3),(3,1)]

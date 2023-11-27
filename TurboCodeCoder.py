@@ -1,7 +1,7 @@
 from Coder import Coder
 import numpy as np
 
-from RCS import RCS
+from RSC import RSC
 
 
 # Turbo code coder
@@ -17,10 +17,10 @@ class TurboCodeCoder(Coder):
 
         output = []
         for c in string:
-            rcs1, rcs2 = RCS(), RCS()
+            rcs1, rcs2 = RSC(), RSC()
             output.append("")
             to_bin = f'{ord(c):07b}'
-            to_bin_i = ['']*7
+            to_bin_i = [''] * 7
             for i in range(7):
                 to_bin_i[self.interleaver[i]] = to_bin[i]
 

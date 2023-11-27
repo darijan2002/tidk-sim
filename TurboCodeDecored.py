@@ -1,6 +1,7 @@
 from Decoder import Decoder
 import numpy as np
-from RCS import RCS
+from RSC import RSC
+
 
 # Turbo code decoder
 class TurboCodeDecoder(Decoder):

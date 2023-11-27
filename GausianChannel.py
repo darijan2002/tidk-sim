@@ -19,13 +19,13 @@ class GausianChannel:
         mean = sign * math.sqrt(self.channel_power)
         return mean + np.random.normal(0, math.sqrt(self.variance))
 
-    def recieve_signal(self,signal):
-        if signal>=0:
+    def recieve_signal(self, signal):
+        if signal >= 0:
             return 1
         else:
             return 0
 
-    def transfer_integer(self,hex_number):
+    def transfer_integer(self, hex_number):
         binary = bin(hex_number)
         binary = binary[2:]
 
@@ -37,7 +37,6 @@ class GausianChannel:
         output_bits = ""
 
         for signal in signal_list:
-            output_bits+=str(self.recieve_signal(signal))
+            output_bits += str(self.recieve_signal(signal))
 
-        return int(output_bits,2)
-
+        return int(output_bits, 2)

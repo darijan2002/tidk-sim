@@ -1,5 +1,6 @@
-class RCS:
-    mem = [0, 0]
+class RSC:
+    def __init__(self):
+        self.mem = [0, 0]
 
     def push(self, bit):
         tmp = self.mem[0] ^ self.mem[1]
@@ -13,3 +14,4 @@ class RCS:
 
     def terminate(self):
         return self.push(0)
+

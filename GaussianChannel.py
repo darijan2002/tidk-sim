@@ -10,6 +10,12 @@ class GaussianChannel:
         self.channel_power = channel_power
         self.variance = variance
 
+    def transmit_sequence(self,sequence):
+
+        output = []
+        for each in sequence:
+            output.append(self.transmit_bit(each))
+        return output
     def transmit_bit(self, bit):
         sign = 1
 

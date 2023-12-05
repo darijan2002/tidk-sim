@@ -14,6 +14,12 @@ class TurboCodeDecoder(Decoder):
         self.second_decoder = SISODecoder()
         self.LLR_ext = [0.0 for _ in range(self.block_size + self.tail_bits)]
 
+    def reset(self):
+        self.LLR_ext = [0.0 for _ in range(self.block_size + self.tail_bits)]
+        self.first_decoder = SISODecoder()
+        self.second_decoder = SISODecoder()
+
+
     def interleave(self,input):
         interleaved = [0 for _ in range(self.block_size + self.tail_bits)]
         for  i in range(self.block_size):
@@ -62,4 +68,14 @@ class TurboCodeDecoder(Decoder):
                 break
         bit_array = [str(int(val >= 0)) for val in self.LLR_ext]
         return "".join(bit_array)
+
+    def decode_sequence(self,sequence):
+        output = []
+        for start_index in range(0,len(sequence),27):
+            print(sequence[start_index:start_index+27])
+            output.append( self.decode(sequence[start_index:start_index+27])[:-2])
+            print(chr(int(self.decode(sequence[start_index:start_index+27])[:-2],base=2)))
+            self.reset()
+        return output
+
 

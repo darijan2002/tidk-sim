@@ -23,7 +23,7 @@ class TurboCodeDecoder(Decoder):
     def deinterleave(self,input):
         deinterleaved = [0 for _ in range(self.block_size+self.tail_bits)]
         for i in range(self.block_size):
-            deinterleaved[i] = input[self.interleaver[i]]
+            deinterleaved[self.interleaver[i]] = input[i]
         return deinterleaved
 
     def bit_predictions(self,input):

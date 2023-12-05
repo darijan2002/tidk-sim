@@ -1,6 +1,6 @@
 from TurboCodeCoder import TurboCodeCoder
 from TurboCodeDecoder import TurboCodeDecoder
-from GausianChannel import GausianChannel
+from GaussianChannel import GaussianChannel
 
 if __name__ == '__main__':
 
@@ -8,7 +8,7 @@ if __name__ == '__main__':
     interleaver = [2,1,4,3,6,5,0]
     coder = TurboCodeCoder(interleaver)
     decoder = TurboCodeDecoder(interleaver, 16)
-    channel = GausianChannel(1.0,0.0)
+    channel = GaussianChannel(1.0,0.0)
 
     coded_string = coder.encode_string(input_string)
 

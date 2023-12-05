@@ -2,7 +2,7 @@ import math
 import numpy as np
 
 
-class GausianChannel:
+class GaussianChannel:
     channel_power = 1
     variance = 1
 
@@ -25,7 +25,7 @@ class GausianChannel:
         mean = sign * math.sqrt(self.channel_power)
         return mean + np.random.normal(0, math.sqrt(self.variance))
 
-    def recieve_signal(self, signal):
+    def receive_signal(self, signal):
         if signal >= 0:
             return 1
         else:

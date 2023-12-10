@@ -69,6 +69,14 @@ class TurboCodeDecoder(Decoder):
         bit_array = [str(int(val >= 0)) for val in self.LLR_ext]
         return "".join(bit_array)
 
+    def decode_vector_for_tests(self,input_vector):
+        output = []
+        str_out = self.decode_sequence(input_vector)[0]
+        for c in str_out:
+            output.append(int(c))
+
+        return output
+
     def decode_sequence(self,sequence):
         output = []
         for start_index in range(0,len(sequence),27):

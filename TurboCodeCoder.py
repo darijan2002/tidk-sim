@@ -11,6 +11,29 @@ class TurboCodeCoder(Coder):
     def __init__(self,interleaver):
         self.interleaver = interleaver
 
+    def encode_bits(self,bit_vector):
+        output = []
+        rsc1, rsc2 = RSC(), RSC()
+        bit_vector_i = [0 for _ in range(len(bit_vector))]
+
+        for i in range(len(bit_vector)):
+            bit_vector_i[i] = bit_vector[self.interleaver[i]]
+
+        for b in range(len(bit_vector)):
+            output.append(bit_vector[b])
+            output.append(rsc1.push(bit_vector[b]))
+            output.append(rsc2.push(bit_vector_i[b]))
+
+        terminated_rsc_1 = [rsc1.terminate() for _ in range(2)]
+        terminated_rsc_2 = [rsc2.terminate() for _ in range(2)]
+
+        for x,y in zip(terminated_rsc_1, terminated_rsc_2):
+            output.append(x)
+            output.append(x)
+            output.append(y)
+
+        print()
+        return output
     def encode_string(self, string):
         # print(f'INTERLEAVER: {self.interleaver}')
 

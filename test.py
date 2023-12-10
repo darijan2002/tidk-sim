@@ -8,7 +8,7 @@ if __name__ == '__main__':
     interleaver = [2,1,4,3,6,5,0]
     coder = TurboCodeCoder(interleaver)
     decoder = TurboCodeDecoder(interleaver, 16)
-    channel = GaussianChannel(1.0,0.0)
+    channel = GaussianChannel(20)
 
     coded_string = coder.encode_string(input_string)
 

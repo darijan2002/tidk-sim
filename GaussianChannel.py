@@ -3,27 +3,22 @@ import numpy as np
 
 
 class GaussianChannel:
-    channel_power = 1
-    variance = 1
+    stddev = 1
 
-    def __init__(self, channel_power, variance):
-        self.channel_power = channel_power
-        self.variance = variance
+    def __init__(self, noise_dB):
+        self.stddev = (10 ** (noise_dB / 20)) ** (-1)
 
-    def transmit_sequence(self,sequence):
+    def transmit_sequence(self, sequence):
 
         output = []
         for each in sequence:
             output.append(self.transmit_bit(each))
         return output
+
     def transmit_bit(self, bit):
-        sign = 1
+        sign = 1 if bit == '1' else -1
 
-        if bit == '0':
-            sign = -1
-
-        mean = sign * math.sqrt(self.channel_power)
-        return mean + np.random.normal(0, math.sqrt(self.variance))
+        return sign + np.random.normal(0, self.stddev)
 
     def receive_signal(self, signal):
         if signal >= 0:
@@ -43,6 +38,6 @@ class GaussianChannel:
         output_bits = ""
 
         for signal in signal_list:
-            output_bits += str(self.recieve_signal(signal))
+            output_bits += str(self.receive_signal(signal))
 
         return int(output_bits, 2)

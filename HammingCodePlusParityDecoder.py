@@ -5,26 +5,11 @@ import numpy as np
 # TODO: add extra parity bit
 # Hamming(11,7) with extra parity bit coder
 class HammingCodePlusParityDecoder(Decoder):
-    _generating_matrix = [[1, 1, 0, 1, 1, 0, 1],
-                          [1, 0, 1, 1, 0, 1, 1],
-                          [0, 1, 1, 1, 0, 0, 0],
-                          [0, 0, 0, 0, 1, 1, 1],
-                          [1, 0, 0, 0, 0, 0, 0],
-                          [0, 1, 0, 0, 0, 0, 0],
-                          [0, 0, 1, 0, 0, 0, 0],
-                          [0, 0, 0, 1, 0, 0, 0],
-                          [0, 0, 0, 0, 1, 0, 0],
-                          [0, 0, 0, 0, 0, 1, 0],
-                          [0, 0, 0, 0, 0, 0, 1]]
 
-    _parity_check_matrix = [[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-                            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
-                            [0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
-                            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]]
 
     def decode(self, input_string):
         current_codeword_idx = 0
-        codeword_len = 11
+        codeword_len = 12
 
         decoded_str = ""
 
@@ -42,7 +27,7 @@ class HammingCodePlusParityDecoder(Decoder):
 
             row_to_correct = (syndrome[8] << 3) + (syndrome[4] << 2) + (syndrome[2] << 1) + syndrome[1]
 
-            if row_to_correct:
+            if row_to_correct and row_to_correct<len(input_string):
                 cw_vec[row_to_correct - 1] = 1 - cw_vec[row_to_correct - 1]
 
             print(row_to_correct)
@@ -55,6 +40,11 @@ class HammingCodePlusParityDecoder(Decoder):
             current_codeword_idx += codeword_len
 
         return decoded_str
+
+    def decode_str_to_binary_vector(self,in_str):
+        out_str = self.decode(in_str)
+        out_arr = [int(c) for c in str(bin(ord(out_str)))[2:]]
+        return out_arr
 
 
 if __name__ == '__main__':

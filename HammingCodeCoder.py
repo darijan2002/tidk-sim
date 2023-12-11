@@ -24,6 +24,11 @@ class HammingCodeCoder(Coder):
 
         return "".join(return_list)
 
+    def encode_binary_vector(self, input_vector):
+        input_int = int("".join([str(a) for a in input_vector]),2)
+
+        return [int(b) for b in self.encode_integer(input_int)]
+
     def encode_string(self, string):
         return_string = ""
 

@@ -33,3 +33,9 @@ class HammingCodePlusParityCoder(Coder):
             return_string += self.encode_integer(character_value)
 
         return return_string
+
+
+    def encode_binary_vector (self, inupt_vector ):
+        input_int = int("".join([str(a) for a in inupt_vector]), 2)
+
+        return [int(b) for b in self.encode_integer(input_int)]

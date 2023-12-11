@@ -96,8 +96,8 @@ def create_ber_plot(plot_params):
     plot.grid(visible=True,which="major", linestyle="-")
     plot.grid(visible=True,which="minor", linestyle="--")
     plot.legend()
-    plot.show()
     plot.savefig("plot.ber.svg")
+    plot.show()
 
 
 if __name__ == '__main__':

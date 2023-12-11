@@ -9,6 +9,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plot
 
+from scipy.interpolate import make_interp_spline, BSpline
 
 def create_iter_plot(plot_params):
     block_size = plot_params["block_size"]
@@ -72,25 +73,53 @@ def create_iter_plot(plot_params):
         turbo_coded_ber_values[n_iter] = turbo_coded_errors[n_iter] / (num_trials * block_size)
     uncoded_ber_values = uncoded_errors / (num_trials * block_size)
 
-    plot.figure(figsize=(10,10))
-    for n,c in zip(num_iters, 'rgmcy'):
-        plot.plot(snr_range, turbo_coded_ber_values[n], f"{c}.-", label=f"Турбо код, {n} ит.")
-    plot.plot(snr_range, uncoded_ber_values, "b.-", label="Без код")
+    def plot_data():
+        plot.figure(figsize=(10,10))
+        for n,c in zip(num_iters, ('red', 'green', 'magenta', 'cyan', 'blue')): #rgmcy
+            plot.plot(snr_range, turbo_coded_ber_values[n], ".-", color=c, label=f"Турбо код, {n} ит.")
+        plot.plot(snr_range, uncoded_ber_values, ".-", color='yellow', label="Без код")
 
-    plot.ylim((0.025, 0.25))
-    plot.yscale("log")
-    plot.title(
-        "Турбо код со рата на пренос 1/3, Информациски битови={}, Обиди={}".format(block_size, num_trials))
-    plot.xlabel("SNR [dB]")
-    plot.ylabel("Bit Error Rate (BER)")
-    plot.grid(visible=True, which="major", linestyle="-")
-    plot.grid(visible=True, which="minor", linestyle="--")
-    plot.legend()
-    plot.savefig("plot.iter.svg")
-    plot.show()
+        plot.ylim(top=0.25)
+        # plot.yscale("log")
+        plot.title(
+            "Турбо код со рата на пренос 1/3, Информациски битови={}, Обиди={}".format(block_size, num_trials))
+        plot.xlabel("SNR [dB]")
+        plot.ylabel("Bit Error Rate (BER)")
+        plot.grid(visible=True, which="major", linestyle="-")
+        plot.grid(visible=True, which="minor", linestyle="--")
+        plot.legend()
+        plot.savefig("plot.iter.svg")
+        plot.show()
+
+    def plot_smooth_data():
+        xnew = np.linspace(*plot_params["snr"][:2], num=50)
+        plot.figure(figsize=(10,10))
+        for n,c in zip(num_iters, ('red', 'green', 'magenta', 'cyan', 'blue')): #rgmcy
+            spl = make_interp_spline(snr_range, turbo_coded_ber_values[n])
+            smooth = spl(xnew)
+            plot.plot(xnew, smooth, ".-", color=c, label=f"Турбо код, {n} ит.")
+        
+        spl = make_interp_spline(snr_range, uncoded_ber_values)
+        smooth = spl(xnew)
+        plot.plot(xnew, smooth, ".-", color='yellow', label="Без код")
+
+        plot.ylim(top=0.25)
+        # plot.yscale("log")
+        plot.title(
+            "Турбо код со рата на пренос 1/3, Информациски битови={}, Обиди={}".format(block_size, num_trials))
+        plot.xlabel("SNR [dB]")
+        plot.ylabel("Bit Error Rate (BER)")
+        plot.grid(visible=True, which="major", linestyle="-")
+        plot.grid(visible=True, which="minor", linestyle="--")
+        plot.legend()
+        plot.savefig("plot.iter.smooth.svg")
+        plot.show()
+
+    plot_smooth_data()
+    
 
 
 if __name__ == '__main__':
 
     create_iter_plot({'block_size': 7, 'num_trials': 100,
-                    'snr': [-5, 2, 10], 'num_iters': [1, 2, 4, 8, 16]})
+                    'snr': [-5, 2, 20], 'num_iters': [1, 2, 4, 8, 16]})

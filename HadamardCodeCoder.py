@@ -33,15 +33,31 @@ class HadamardCodeCoder(Coder):
       uh = self.encode_integer(character_value >> 4)
       lh = self.encode_integer(character_value & 0xf)
 
-      print(uh, lh)
+      # print(uh, lh)
 
       return_string += "".join(map(str, uh.tolist()[0]))
       return_string += "".join(map(str, lh.tolist()[0]))
 
     return return_string
+  
+  def encode_binary_vector(self, vec):
+    output = []
+    k = int("".join(vec.astype(str)), 2)
+
+    uh = self.encode_integer(k >> 4)
+    lh = self.encode_integer(k & 0xf)
+
+    # print(uh, lh)
+
+    output += uh.tolist()[0]
+    output += lh.tolist()[0]
+
+    return output
 
 
 if __name__ == '__main__':
   c = HadamardCodeCoder()
   # print(c.encode_integer(5))
-  print(c.encode_string('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed fringilla orci. Integer accumsan ornare placerat. Vestibulum a purus ut risus aliquam molestie sed eget neque. Maecenas vehicula sem justo, quis rhoncus nulla sollicitudin non. Ut non sem orci. Aliquam erat volutpat. Etiam congue sodales elit non laoreet. Morbi semper gravida ex, ac suscipit sem varius ut. Curabitur posuere nec massa vitae venenatis. Proin dapibus ex at interdum lacinia. Proin pulvinar lorem lacus, quis efficitur metus viverra eu. Mauris a nisl venenatis, feugiat odio non, mattis neque. In velit arcu, sagittis vel neque eu, convallis condimentum tortor.'))
+  print("".join(str(x) for x in c.encode_binary_vector(np.array([1,0,0,0,0,0,1]))))
+  print(c.encode_string('A'))
+  # print(c.encode_string('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed fringilla orci. Integer accumsan ornare placerat. Vestibulum a purus ut risus aliquam molestie sed eget neque. Maecenas vehicula sem justo, quis rhoncus nulla sollicitudin non. Ut non sem orci. Aliquam erat volutpat. Etiam congue sodales elit non laoreet. Morbi semper gravida ex, ac suscipit sem varius ut. Curabitur posuere nec massa vitae venenatis. Proin dapibus ex at interdum lacinia. Proin pulvinar lorem lacus, quis efficitur metus viverra eu. Mauris a nisl venenatis, feugiat odio non, mattis neque. In velit arcu, sagittis vel neque eu, convallis condimentum tortor.'))
